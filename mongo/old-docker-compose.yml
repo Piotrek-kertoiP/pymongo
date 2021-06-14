@@ -1,0 +1,29 @@
+version: "3.9"
+networks:
+  cluster:
+    ipam:
+      driver: default
+      config:
+        - subnet: 100.100.0.0/16
+
+volumes:
+  mongodata:
+    driver: local
+
+services:
+    mongo:
+        container_name: "mongo"
+        networks:
+          cluster:
+            ipv4_address: 100.100.100.1
+            aliases:
+              - mongo
+        image: mongo
+        hostname: "10.100.100.1"
+        ports: 
+          - "27017:27017"
+        volumes:
+          - ./mongodata:/data/db
+        environment:
+          - MONGO_INITDB_ROOT_USERNAME=piotrek
+          - MONGO_INITDB_ROOT_PASSWORD=piotrek

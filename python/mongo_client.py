@@ -12,7 +12,7 @@ def main():
     print('Starting...\n')
     
    # mongo_client = MongoClient(host = 'localhost:27017', username = dbuser, password = dbpassword)
-    mongo_client = MongoClient(host = '172.19.0.2:27017', username = dbuser, password = dbpassword)
+    mongo_client = MongoClient(host = '172.18.0.3:27017', username = dbuser, password = dbpassword)
     print('Created Mongo client\n')
 
     print("Databases: ", mongo_client.list_database_names(), '\n')

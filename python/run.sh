@@ -1,1 +1,1 @@
-sudo docker run --network mongo_default -it mongo-client mongo_client.py
+docker run --network mongo_default -it mongo-client mongo_client.py

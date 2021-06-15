@@ -1,1 +1,1 @@
-sudo docker build -t mongo-client .
+docker build -t mongo-client .

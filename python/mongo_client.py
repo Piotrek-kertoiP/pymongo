@@ -1,16 +1,16 @@
 from pymongo import MongoClient
-from iris_dataset import dataset
+import iris_dataset
 
 dbuser = 'piotrek'
 dbpassword = 'piotrek'
 
 
 def create_record(collection):
-    sepalLength = input("Type in sepalLength")
-    sepalWidth = input("Type in sepalWidth")
-    petalLength = input("Type in petalLength")
-    petalWidth = input("Type in petalWidth")
-    species = input("Type in species")
+    sepalLength = float(input("Type in sepalLength\n"))
+    sepalWidth = float(input("Type in sepalWidth\n"))
+    petalLength = float(input("Type in petalLength\n"))
+    petalWidth = float(input("Type in petalWidth\n"))
+    species = input("Type in species\n")
 
     dictionary = {
         "sepalLength": sepalLength,
@@ -21,7 +21,7 @@ def create_record(collection):
     }
 
     result = collection.insert_one(dictionary)
-    print('Inserted dictionary, id = ' + str(result.inserted_id))
+    print('Inserted document, id = ', result.inserted_id)
 
 
 def retrieve_records(collection):
@@ -32,10 +32,12 @@ def retrieve_records(collection):
 
 def delete_record(collection):
     print("Specify filters to delete only records you want to delete. "
-          "If you want to delete all, type in 'none' two times")
+          "If you want to delete all, type in 'none' two times\n")
 
-    key = input("Give key name on which you want to filter")
-    value = input("Give value associated with given key on which you want to filter")
+    key = input("Give key name on which you want to filter\n")
+    value = input("Give value associated with given key on which you want to filter\n")
+    if key != 'species' and key != 'none':
+        value = float(value)
 
     if key == 'none' and value == 'none':
         query = {}
@@ -47,8 +49,8 @@ def delete_record(collection):
 
 
 def insert_iris(collection):
-    results = collection.insert_many(iris_dataset)
-    print('Inserted dictionary, ids = ' + str(results.inserted_ids))
+    collection.insert_many(iris_dataset.dataset)
+    print('Inserted dictionary')
 
 
 def main():
@@ -66,14 +68,14 @@ def main():
                            'It will be created:\n')
     db = mongo_client[chosen_db_name]
 
-    print('Available collections' + str(db.list_collections()), '\n')
+    print('Available collections', db.list_collections(), '\n')
     chosen_collection_name = input('Choose collection to use. If you want to use another collection, type its name. '
                                    'It will be created:\n')
     collection = db[chosen_collection_name]
 
     should_continue = True
     while should_continue:
-        operation = input('Choose operation: [(C)reate, (R)etrieve,(D)elete], (I) insert iris, exit\n')
+        operation = input('Choose operation: (C) create, (R) retrieve,(D) delete, (I) insert iris, (exit) exit\n')
 
         if operation == 'exit':
             should_continue = False
